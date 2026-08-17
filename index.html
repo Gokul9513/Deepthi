@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Deepthi ❤️</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
+
+    body {
+        background: #fff7fb;
+        color: #3d2633;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+        padding: 20px 0;
+    }
+
+    /* ---------- LOADING SCREEN ---------- */
+    #loading {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, #ff8fb1, #c77dff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 9999;
+        color: white;
+        transition: opacity 1s ease;
+    }
+
+    #loading h1 {
+        font-size: 42px;
+        animation: heartbeat 1.5s infinite;
+    }
+
+    @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.12); }
+    }
+
+    /* ---------- PAGE WRAPPER ---------- */
+    .page-container {
+        width: 100%;
+        max-width: 850px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .page {
+        display: none;
+        width: 100%;
+        animation: fadeIn 0.6s ease-in-out forwards;
+    }
+
+    .page.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------- CENTERED INLINE NAVIGATION ---------- */
+    .inline-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 25px;
+        width: 100%;
+    }
+
+    .nav-btn {
+        padding: 14px 38px;
+        border: none;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #e85d9e, #9d63d8);
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(157,99,216,0.25);
+        transition: 0.3s;
+    }
+
+    .nav-btn:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 8px 20px rgba(157,99,216,0.35);
+    }
+
+    /* ---------- COMMON SECTION STYLES ---------- */
+    .section-title {
+        text-align: center;
+        font-size: 36px;
+        color: #8d315c;
+        margin-bottom: 10px;
+    }
+
+    .section-subtitle {
+        text-align: center;
+        color: #795d6c;
+        margin-bottom: 25px;
+        padding: 0 10px;
+    }
+
+    /* PAGE 1: HERO */
+    .hero {
+        text-align: center;
+    }
+
+    .small-text {
+        font-size: 16px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #a04d76;
+        margin-bottom: 15px;
+    }
+
+    .hero h1 {
+        font-size: clamp(38px, 7vw, 72px);
+        color: #8d315c;
+        margin-bottom: 15px;
+    }
+
+    .hero h1 span { color: #d64d8a; }
+
+    .age {
+        font-size: 28px;
+        font-weight: bold;
+        color: #9d5bb5;
+        margin-bottom: 20px;
+    }
+
+    .hero-message {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #684c5c;
+        max-width: 650px;
+        margin: auto;
+    }
+
+    /* PAGE 2: MESSAGE */
+    .message-card {
+        padding: 40px;
+        border-radius: 25px;
+        background: linear-gradient(135deg, #fff4f8, #f8f0ff);
+        box-shadow: 0 15px 45px rgba(120,70,100,0.1);
+        text-align: center;
+    }
+
+    .message-card p {
+        font-size: 17px;
+        line-height: 1.9;
+        color: #624c59;
+    }
+
+    .signature {
+        margin-top: 25px;
+        font-size: 19px;
+        color: #c24c84;
+        font-weight: bold;
+    }
+
+    /* PAGE 3: 7-PHOTO SLIDESHOW */
+    .slideshow-container {
+        position: relative;
+        max-width: 700px;
+        margin: auto;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        background: #f0f0f0;
+    }
+
+    .slide {
+        display: none;
+        position: relative;
+    }
+
+    .slide img {
+        width: 100%;
+        height: 420px;
+        object-fit: cover;
+    }
+
+    .caption {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 15px;
+        background: rgba(0,0,0,0.55);
+        backdrop-filter: blur(4px);
+        color: white;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .slide-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.75);
+        border: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.3s;
+    }
+
+    .slide-btn:hover {
+        background: rgba(255,255,255,0.95);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .prev-slide { left: 15px; }
+    .next-slide { right: 15px; }
+
+    /* PAGE 4: ANIMATED CAKE & AGE CARDS */
+    .cake-section {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cake-container {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin: 10px auto 25px;
+        cursor: pointer;
+    }
+
+    .plate {
+        width: 220px;
+        height: 16px;
+        background: #e0e0e0;
+        border-radius: 10px;
+        position: absolute;
+        bottom: 0;
+        left: -10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .layer-bottom {
+        width: 180px;
+        height: 60px;
+        background: #f48fb1;
+        border-radius: 10px 10px 0 0;
+        position: absolute;
+        bottom: 16px;
+        left: 10px;
+        box-shadow: inset 0 -10px 0 #f06292;
+    }
+
+    .layer-top {
+        width: 140px;
+        height: 50px;
+        background: #ce93d8;
+        border-radius: 10px 10px 0 0;
+        position: absolute;
+        bottom: 76px;
+        left: 30px;
+        box-shadow: inset 0 -8px 0 #ba68c8;
+    }
+
+    .candle {
+        width: 14px;
+        height: 45px;
+        background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff4081 5px, #ff4081 10px);
+        position: absolute;
+        bottom: 126px;
+        left: 93px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .flame {
+        width: 16px;
+        height: 24px;
+        background: orange;
+        border-radius: 50% 50% 20% 20%;
+        position: absolute;
+        top: -24px;
+        left: -1px;
+        animation: flicker 0.8s infinite alternate;
+        box-shadow: 0 0 15px orange, 0 0 25px yellow;
+        transform-origin: center bottom;
+    }
+
+    .flame.off { display: none; }
+
+    @keyframes flicker {
+        0% { transform: scale(1) rotate(-2deg); }
+        100% { transform: scale(1.15) rotate(2deg); }
+    }
+
+    .tap-hint {
+        font-size: 15px;
+        color: #e85d9e;
+        font-weight: 600;
+        animation: bounce 1.5s infinite;
+        margin-bottom: 20px;
+    }
+
+    .age-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 16px;
+        width: 100%;
+        max-width: 780px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+        pointer-events: none;
+    }
+
+    .age-grid.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .time-card {
+        background: linear-gradient(145deg, #ffffff, #fff0f7);
+        border-radius: 20px;
+        padding: 18px 10px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(232, 93, 158, 0.12);
+        border: 2px solid transparent;
+        background-clip: padding-box;
+        transition: all 0.3s ease;
+        animation: floatCard 4s ease-in-out infinite alternate;
+    }
+
+    .time-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        padding: 2px;
+        background: linear-gradient(135deg, #ff8fb1, #9d63d8);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+
+    .time-card:nth-child(even) {
+        animation-delay: 2s;
+    }
+
+    @keyframes floatCard {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-6px); }
+    }
+
+    .time-card .icon {
+        font-size: 18px;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    .time-card .value {
+        font-size: 20px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #8d315c, #9d63d8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: block;
+    }
+
+    .time-card .unit {
+        font-size: 11px;
+        color: #9e7589;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        margin-top: 3px;
+        display: block;
+    }
+
+    /* PAGE 5: MEMORIES */
+    .memory-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 22px;
+    }
+
+    .memory-card {
+        background: linear-gradient(135deg, #ffffff, #fdf0f7);
+        padding: 30px 22px;
+        border-radius: 24px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(157, 99, 216, 0.08);
+        border: 1px solid rgba(255, 182, 217, 0.4);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    .page.active .memory-card {
+        animation: cardPopIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .page.active .memory-card:nth-child(1) { animation-delay: 0.1s; }
+    .page.active .memory-card:nth-child(2) { animation-delay: 0.25s; }
+    .page.active .memory-card:nth-child(3) { animation-delay: 0.4s; }
+    .page.active .memory-card:nth-child(4) { animation-delay: 0.55s; }
+
+    @keyframes cardPopIn {
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .memory-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, #e85d9e, #9d63d8, #ff8fb1);
+    }
+
+    .memory-card:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 20px 35px rgba(232, 93, 158, 0.2);
+        background: linear-gradient(135deg, #ffffff, #fae6f2);
+    }
+
+    .card-icon {
+        font-size: 38px;
+        margin-bottom: 12px;
+        display: inline-block;
+        animation: gentleFloat 3s ease-in-out infinite alternate;
+    }
+
+    .memory-card:nth-child(even) .card-icon {
+        animation-delay: 1.5s;
+    }
+
+    @keyframes gentleFloat {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(-8px) rotate(5deg); }
+    }
+
+    .memory-card h3 {
+        color: #8d315c;
+        font-size: 19px;
+        margin-bottom: 10px;
+    }
+
+    .memory-card p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #735165;
+    }
+
+    /* PAGE 6: HEART-TOUCHING SURPRISE WITH BACKGROUND IMAGE */
+    .surprise-box {
+        text-align: center;
+        /* Replace 'photos/bg-final.jpg' with your local background image */
+        background: linear-gradient(rgba(35, 12, 30, 0.72), rgba(35, 12, 30, 0.72)), url('photosbg-final.jpeg') center/cover no-repeat;
+        color: white;
+        padding: 50px 30px;
+        border-radius: 25px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .gift {
+        font-size: 80px;
+        cursor: pointer;
+        display: inline-block;
+        animation: bounce 1.5s infinite;
+        margin: 15px;
+        transition: transform 0.3s;
+    }
+
+    .gift:hover {
+        transform: scale(1.15) rotate(5deg);
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+
+    /* HEART-TOUCHING MESSAGE CONTAINER */
+    #hiddenMessage {
+        display: none;
+        margin-top: 30px;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 35px 30px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        animation: popup 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes popup {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .heart-touching-text {
+        font-size: 16px;
+        line-height: 1.9;
+        color: #fff0f7;
+    }
+
+    .heart-touching-text .highlight {
+        color: #ffb3d1;
+        font-weight: 600;
+    }
+
+    .unique-quote-box {
+        margin: 25px 0 20px;
+        padding: 18px 20px;
+        background: linear-gradient(135deg, rgba(232, 93, 158, 0.25), rgba(157, 99, 216, 0.25));
+        border-left: 4px solid #ff8fb1;
+        border-radius: 12px;
+        font-style: italic;
+        font-size: 15px;
+        color: #ffffff;
+        line-height: 1.7;
+    }
+
+    .final-signoff {
+        text-align: center;
+        margin-top: 25px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffb3d1;
+    }
+
+    /* CONFETTI & FLOATING HEARTS */
+    .heart, .confetti {
+        position: fixed;
+        pointer-events: none;
+        z-index: 999;
+    }
+
+    .heart {
+        bottom: -50px;
+        animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+        from { transform: translateY(0); opacity: 0; }
+        20% { opacity: 0.8; }
+        to { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .confetti {
+        top: -20px;
+        animation: fall 4s linear forwards;
+    }
+
+    @keyframes fall {
+        to { transform: translateY(110vh) rotate(720deg); }
+    }
+</style>
+</head>
+
+<body onclick="playMusicOnFirstInteraction()">
+
+<!-- BACKGROUND AUDIO PLAYER -->
+<audio id="bgMusic" loop></audio>
+
+<!-- LOADING SCREEN -->
+<div id="loading">
+    <h1>💗</h1>
+    <p>A little surprise is waiting...</p>
+</div>
+
+<!-- MAIN PAGE CONTAINER -->
+<div class="page-container">
+
+    <!-- PAGE 1: HERO -->
+    <div class="page active" id="page1">
+        <div class="hero">
+            <div class="small-text">A special day for a special person</div>
+            <h1>Happy Birthday<br><span>Deepthi</span> 💕</h1>
+            <div class="age">✨ Special Day ✨</div>
+            <p class="hero-message">
+                Today isn't just another day... It's the day someone truly special came into this world.
+                Follow through these steps to unlock your birthday surprise! 🌸
+            </p>
+        </div>
+    </div>
+
+    <!-- PAGE 2: MESSAGE -->
+    <div class="page" id="page2">
+        <h2 class="section-title">To My Amazing Best Friend 💕</h2>
+        <p class="section-subtitle">Some people enter our lives and make ordinary moments special.</p>
+        <div class="message-card">
+            <div style="font-size: 45px; margin-bottom: 15px;">🌷</div>
+            <p>
+                Dear Deepthi,<br><br>
+                Happy Birthday! 🎂✨<br><br>
+                I'm really lucky to have a friend like you in my life. From random conversations and silly jokes to those moments when we just understand each other without saying much, every memory with you is special. ❤️<br><br>
+                I hope this new year brings you endless happiness, beautiful memories, success, and peace. 🌸
+            </p>
+            <div class="signature">— Your Best Friend ❤️</div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: 7-PHOTO SLIDESHOW -->
+    <div class="page" id="page3">
+        <h2 class="section-title">Photo Gallery 📸</h2>
+        <p class="section-subtitle">Moments and memories frame by frame.</p>
+        <div class="slideshow-container">
+            <div class="slide">
+                <img src="photo1.jpeg" alt="Memory 1">
+                <div class="caption">Cherished Moments 🌟</div>
+            </div>
+            <div class="slide">
+                <img src="photo2.jpeg" alt="Memory 2">
+                <div class="caption">Laughter & Fun 😄</div>
+            </div>
+            <div class="slide">
+                <img src="photo3.jpeg" alt="Memory 3">
+                <div class="caption">Unforgettable Days 💖</div>
+            </div>
+            <div class="slide">
+                <img src="photo4.jpeg" alt="Memory 4">
+                <div class="caption">Sweet Smiles 😊</div>
+            </div>
+            <div class="slide">
+                <img src="photo5.jpeg" alt="Memory 5">
+                <div class="caption">Best Time Together 🌸</div>
+            </div>
+            <div class="slide">
+                <img src="photo6.jpeg" alt="Memory 6">
+                <div class="caption">Golden Memories ✨</div>
+            </div>
+            <div class="slide">
+                <img src="photo7.jpeg" alt="Memory 7">
+                <div class="caption">Forever Best Friends 💕</div>
+            </div>
+
+            <button class="slide-btn prev-slide" onclick="changeSlide(-1)">❮</button>
+            <button class="slide-btn next-slide" onclick="changeSlide(1)">❯</button>
+        </div>
+    </div>
+
+    <!-- PAGE 4: ANIMATED CAKE & AGE CALCULATOR -->
+    <div class="page" id="page4">
+        <h2 class="section-title">A Flame for Every Moment 🕯️</h2>
+        <p class="section-subtitle">Blow out the candle to reveal every precious second the world has been brighter with you in it.</p>
+        
+        <div class="cake-section">
+            <div class="cake-container" onclick="blowOutCandle()">
+                <div class="plate"></div>
+                <div class="layer-bottom"></div>
+                <div class="layer-top"></div>
+                <div class="candle">
+                    <div class="flame" id="flame"></div>
+                </div>
+            </div>
+
+            <div class="tap-hint" id="tapHint">✨ Gently tap the flame to release a wish and reveal your journey...</div>
+
+            <div class="age-grid" id="ageGrid">
+                <div class="time-card"><span class="icon">✨</span><span class="value" id="valYears">0</span><span class="unit">Years</span></div>
+                <div class="time-card"><span class="icon">🌙</span><span class="value" id="valMonths">0</span><span class="unit">Months</span></div>
+                <div class="time-card"><span class="icon">🗓️</span><span class="value" id="valWeeks">0</span><span class="unit">Weeks</span></div>
+                <div class="time-card"><span class="icon">☀️</span><span class="value" id="valDays">0</span><span class="unit">Days</span></div>
+                <div class="time-card"><span class="icon">⏰</span><span class="value" id="valHours">0</span><span class="unit">Hours</span></div>
+                <div class="time-card"><span class="icon">⏳</span><span class="value" id="valMinutes">0</span><span class="unit">Minutes</span></div>
+                <div class="time-card"><span class="icon">⚡</span><span class="value" id="valSeconds">0</span><span class="unit">Seconds</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: MEMORIES -->
+    <div class="page" id="page5">
+        <h2 class="section-title">Little Things That Matter 💫</h2>
+        <p class="section-subtitle">Because the best memories are usually the simplest ones.</p>
+        <div class="memory-grid">
+            <div class="memory-card">
+                <span class="card-icon">😂</span>
+                <h3>Random Chats</h3>
+                <p>Those normal chats that turn into completely crazy conversations.</p>
+            </div>
+            <div class="memory-card">
+                <span class="card-icon">🤍</span>
+                <h3>Always There</h3>
+                <p>Through good days, bad days, and everything in between.</p>
+            </div>
+            <div class="memory-card">
+                <span class="card-icon">🌸</span>
+                <h3>Warm Memories</h3>
+                <p>Ordinary moments that somehow become unforgettable.</p>
+            </div>
+            <div class="memory-card">
+                <span class="card-icon">♾️</span>
+                <h3>Friendship</h3>
+                <p>Different days and places, but always the same connection.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 6: FINAL SURPRISE WITH HEART-TOUCHING MESSAGE -->
+    <div class="page" id="page6">
+        <div class="surprise-box">
+            <h2 class="section-title" style="color: white;">One Final Surprise... 🎁</h2>
+            <div class="gift" onclick="openGift()">🎁</div>
+            <p style="letter-spacing: 1px; font-size: 15px; color: #ffb3d1;">Tap the gift box to read my heart ✨</p>
+            
+            <div id="hiddenMessage">
+                <div class="heart-touching-text">
+                    Deepthi... 💖<br><br>
+                    They say that true friends are hard to find, but having you as my best friend proved to me that the best people enter our lives unexpectedly and stay forever.<br><br>
+                    Even when we started our journey as <span class="highlight">online friends</span>, you quickly became my safest space, my constant support, and one of the most precious chapters of my life. Thank you for always listening without judgment, for making me smile during tough days, and for just being <em>you</em>.
+                    
+                    <div class="unique-quote-box">
+                        "Distance or time can never change a bond built on genuine care. No matter where life takes us, you will always have a special place in my heart." ✨
+                    </div>
+
+                    I pray this new year brings you endless laughter, peace in your mind, success in all your dreams, and all the love you so selflessly give to others. Never let the world change your kind, genuine soul. 🌷<br>
+                </div>
+                
+                <div class="final-signoff">
+                    Happy Birthday Once Again, Fav Person! 🎂✨❤️
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- CENTERED INLINE NAVIGATION -->
+<div class="inline-nav">
+    <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Read My Message 💕</button>
+</div>
+
+<script>
+    let currentPage = 1;
+    const totalPages = 6;
+    let isMusicPlaying = false;
+    let liveTimerInterval = null;
+    const audioPlayer = document.getElementById("bgMusic");
+
+    // Local track paths for each page
+    const pageTracks = {
+        1: "musictrack1.mp3",
+        2: "musictrack2.mp3",
+        3: "musictrack3.mp3",
+        4: "musictrack4.mp3",
+        5: "musictrack5.mp3",
+        6: "musictrack6.mp3"
+    };
+
+    const uniqueButtonTexts = [
+        "Read My Message 💕",
+        "View Photo Memories 📸",
+        "Blow The Candle 🕯️",
+        "See What Matters 💫",
+        "Unlock Birthday Surprise 🎁"
+    ];
+
+    /* ---------- DYNAMIC PAGE MUSIC ---------- */
+    function playTrackForCurrentPage() {
+        const trackUrl = pageTracks[currentPage];
+        if (audioPlayer.src !== trackUrl) {
+            audioPlayer.src = trackUrl;
+            audioPlayer.load();
+        }
+        audioPlayer.play().then(() => {
+            isMusicPlaying = true;
+        }).catch(() => {
+            // Autoplay restrictions
+        });
+    }
+
+    function playMusicOnFirstInteraction() {
+        if (!isMusicPlaying) {
+            playTrackForCurrentPage();
+        }
+    }
+
+    /* ---------- PAGE NAVIGATION ---------- */
+    function updateNavigation() {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.getElementById(`page${currentPage}`).classList.add('active');
+
+        const nextBtn = document.getElementById('nextBtn');
+        if (currentPage < totalPages) {
+            nextBtn.style.display = "inline-block";
+            nextBtn.innerText = uniqueButtonTexts[currentPage - 1];
+        } else {
+            nextBtn.style.display = "none";
+        }
+
+        playTrackForCurrentPage();
+    }
+
+    function navigate(direction) {
+        const targetPage = currentPage + direction;
+        if (targetPage >= 1 && targetPage <= totalPages) {
+            currentPage = targetPage;
+            updateNavigation();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    /* ---------- LOADING SCREEN ---------- */
+    window.addEventListener("load", function() {
+        setTimeout(function() {
+            const loading = document.getElementById("loading");
+            loading.style.opacity = "0";
+            setTimeout(() => loading.style.display = "none", 1000);
+        }, 1500);
+    });
+
+    /* ---------- FIXED 7-PHOTO SLIDESHOW ---------- */
+    let slideIndex = 1;
+
+    function showSlides(n) {
+        const slides = document.querySelectorAll("#page3 .slide");
+        if (slides.length === 0) return;
+        
+        if (n > slides.length) slideIndex = 1;
+        if (n < 1) slideIndex = slides.length;
+        
+        slides.forEach(slide => slide.style.display = "none");
+        slides[slideIndex - 1].style.display = "block";
+    }
+
+    function changeSlide(n) {
+        showSlides(slideIndex += n);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        showSlides(slideIndex);
+        setInterval(() => changeSlide(1), 4000);
+    });
+
+    /* ---------- CANDLE ANIMATION & LIVE AGE CALCULATOR ---------- */
+    function blowOutCandle() {
+        const flame = document.getElementById("flame");
+        const hint = document.getElementById("tapHint");
+        const grid = document.getElementById("ageGrid");
+
+        if (!flame.classList.contains("off")) {
+            flame.classList.add("off");
+            hint.innerText = "✨ Your wish is sent! Your live journey in real-time 💕";
+            grid.classList.add("show");
+            createConfetti();
+
+            updateLiveAge();
+            if (!liveTimerInterval) {
+                liveTimerInterval = setInterval(updateLiveAge, 1000);
+            }
+        }
+    }
+
+    function updateLiveAge() {
+        const start = new Date("2003-03-16T00:00:00");
+        const now = new Date();
+
+        const diffMs = now - start;
+        const diffSeconds = Math.floor(diffMs / 1000);
+        const diffMinutes = Math.floor(diffSeconds / 60);
+        const diffHours = Math.floor(diffMinutes / 60);
+        const diffDays = Math.floor(diffHours / 24);
+        const diffWeeks = Math.floor(diffDays / 7);
+
+        let years = now.getFullYear() - start.getFullYear();
+        let months = (years * 12) + (now.getMonth() - start.getMonth());
+        if (now.getDate() < start.getDate()) {
+            months--;
+        }
+
+        document.getElementById("valYears").innerText = Math.max(0, years).toLocaleString();
+        document.getElementById("valMonths").innerText = Math.max(0, months).toLocaleString();
+        document.getElementById("valWeeks").innerText = Math.max(0, diffWeeks).toLocaleString();
+        document.getElementById("valDays").innerText = Math.max(0, diffDays).toLocaleString();
+        document.getElementById("valHours").innerText = Math.max(0, diffHours).toLocaleString();
+        document.getElementById("valMinutes").innerText = Math.max(0, diffMinutes).toLocaleString();
+        document.getElementById("valSeconds").innerText = Math.max(0, diffSeconds).toLocaleString();
+    }
+
+    /* ---------- SURPRISE GIFT & CONFETTI ---------- */
+    function openGift() {
+        const msg = document.getElementById("hiddenMessage");
+        msg.style.display = (msg.style.display === "block") ? "none" : "block";
+        if (msg.style.display === "block") createConfetti();
+    }
+
+    function createConfetti() {
+        const symbols = ["🎉", "✨", "💖", "🎈", "🌸", "💕", "⭐"];
+        for (let i = 0; i < 60; i++) {
+            const confetti = document.createElement("div");
+            confetti.classList.add("confetti");
+            confetti.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+            confetti.style.left = Math.random() * 100 + "vw";
+            confetti.style.animationDuration = (2 + Math.random() * 3) + "s";
+            confetti.style.fontSize = (14 + Math.random() * 16) + "px";
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 4000);
+        }
+    }
+
+    /* ---------- FLOATING HEARTS ---------- */
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        const hearts = ["❤️", "💗", "💕", "💖", "🌸", "✨"];
+        heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+        heart.style.fontSize = (15 + Math.random() * 20) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 8000);
+    }
+
+    setInterval(createHeart, 600);
+
+    // Initial navigation setup
+    updateNavigation();
+</script>
+
+</body>
+</html>
