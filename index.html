@@ -81,6 +81,7 @@
         align-items: center;
         margin-top: 25px;
         width: 100%;
+        z-index: 10;
     }
 
     .nav-btn {
@@ -479,15 +480,29 @@
         color: #735165;
     }
 
-    /* PAGE 6: HEART-TOUCHING SURPRISE WITH BACKGROUND IMAGE */
+    /* PAGE 6: FIREWORKS & HEART-TOUCHING SURPRISE */
+    #page6 {
+        position: relative;
+    }
+
+    #fireworksCanvas {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 100;
+    }
+
     .surprise-box {
+        position: relative;
+        z-index: 101;
         text-align: center;
-        /* Replace 'photos/bg-final.jpg' with your local background image */
-        background: linear-gradient(rgba(35, 12, 30, 0.72), rgba(35, 12, 30, 0.72)), url('photosbg-final.jpeg') center/cover no-repeat;
+        background: linear-gradient(rgba(35, 12, 30, 0.75), rgba(35, 12, 30, 0.75)), url('photosbg-final.jpeg') center/cover no-repeat;
         color: white;
         padding: 50px 30px;
         border-radius: 25px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         border: 1px solid rgba(255, 255, 255, 0.25);
     }
 
@@ -495,38 +510,37 @@
         font-size: 80px;
         cursor: pointer;
         display: inline-block;
-        animation: bounce 1.5s infinite;
+        animation: giftGlow 2s infinite ease-in-out;
         margin: 15px;
         transition: transform 0.3s;
     }
 
+    @keyframes giftGlow {
+        0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px #ff8fb1); }
+        50% { transform: translateY(-15px) scale(1.08); filter: drop-shadow(0 0 25px #ffd700); }
+    }
+
     .gift:hover {
-        transform: scale(1.15) rotate(5deg);
+        transform: scale(1.2) rotate(8deg);
     }
 
-    @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-15px); }
-    }
-
-    /* HEART-TOUCHING MESSAGE CONTAINER */
     #hiddenMessage {
         display: none;
         margin-top: 30px;
         text-align: left;
         background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
         padding: 35px 30px;
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.25);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         animation: popup 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
     @keyframes popup {
-        from { opacity: 0; transform: scale(0.9); }
-        to { opacity: 1; transform: scale(1); }
+        from { opacity: 0; transform: scale(0.88) translateY(20px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .heart-touching-text {
@@ -543,7 +557,7 @@
     .unique-quote-box {
         margin: 25px 0 20px;
         padding: 18px 20px;
-        background: linear-gradient(135deg, rgba(232, 93, 158, 0.25), rgba(157, 99, 216, 0.25));
+        background: linear-gradient(135deg, rgba(232, 93, 158, 0.3), rgba(157, 99, 216, 0.3));
         border-left: 4px solid #ff8fb1;
         border-radius: 12px;
         font-style: italic;
@@ -558,6 +572,12 @@
         font-size: 18px;
         font-weight: bold;
         color: #ffb3d1;
+        animation: pulseGlow 2s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+        0% { text-shadow: 0 0 5px #ff8fb1; }
+        100% { text-shadow: 0 0 18px #ffd700, 0 0 25px #ff8fb1; }
     }
 
     /* CONFETTI & FLOATING HEARTS */
@@ -593,6 +613,9 @@
 
 <!-- BACKGROUND AUDIO PLAYER -->
 <audio id="bgMusic" loop></audio>
+
+<!-- FIREWORKS OVERLAY CANVAS -->
+<canvas id="fireworksCanvas"></canvas>
 
 <!-- LOADING SCREEN -->
 <div id="loading">
@@ -728,10 +751,10 @@
         </div>
     </div>
 
-    <!-- PAGE 6: FINAL SURPRISE WITH HEART-TOUCHING MESSAGE -->
+    <!-- PAGE 6: FINAL SURPRISE WITH FIREWORKS & HEART-TOUCHING MESSAGE -->
     <div class="page" id="page6">
         <div class="surprise-box">
-            <h2 class="section-title" style="color: white;">One Final Surprise... 🎁</h2>
+            <h2 class="section-title" style="color: white;">One Final Surprise... 🎆</h2>
             <div class="gift" onclick="openGift()">🎁</div>
             <p style="letter-spacing: 1px; font-size: 15px; color: #ffb3d1;">Tap the gift box to read my heart ✨</p>
             
@@ -769,7 +792,6 @@
     let liveTimerInterval = null;
     const audioPlayer = document.getElementById("bgMusic");
 
-    // Local track paths for each page
     const pageTracks = {
         1: "musictrack1.mp3",
         2: "musictrack2.mp3",
@@ -796,9 +818,7 @@
         }
         audioPlayer.play().then(() => {
             isMusicPlaying = true;
-        }).catch(() => {
-            // Autoplay restrictions
-        });
+        }).catch(() => {});
     }
 
     function playMusicOnFirstInteraction() {
@@ -818,6 +838,7 @@
             nextBtn.innerText = uniqueButtonTexts[currentPage - 1];
         } else {
             nextBtn.style.display = "none";
+            startFireworksShow();
         }
 
         playTrackForCurrentPage();
@@ -909,11 +930,14 @@
         document.getElementById("valSeconds").innerText = Math.max(0, diffSeconds).toLocaleString();
     }
 
-    /* ---------- SURPRISE GIFT & CONFETTI ---------- */
+    /* ---------- SURPRISE GIFT, CONFETTI & FIREWORKS ---------- */
     function openGift() {
         const msg = document.getElementById("hiddenMessage");
         msg.style.display = (msg.style.display === "block") ? "none" : "block";
-        if (msg.style.display === "block") createConfetti();
+        if (msg.style.display === "block") {
+            createConfetti();
+            triggerExplosionFireworks();
+        }
     }
 
     function createConfetti() {
@@ -927,6 +951,95 @@
             confetti.style.fontSize = (14 + Math.random() * 16) + "px";
             document.body.appendChild(confetti);
             setTimeout(() => confetti.remove(), 4000);
+        }
+    }
+
+    /* ---------- FIREWORKS CANVAS ENGINE ---------- */
+    const canvas = document.getElementById("fireworksCanvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+        constructor(x, y, color) {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 6 + 2;
+            this.vx = Math.cos(angle) * speed;
+            this.vy = Math.sin(angle) * speed;
+            this.alpha = 1;
+            this.decay = Math.random() * 0.015 + 0.01;
+            this.size = Math.random() * 3 + 2;
+        }
+
+        update() {
+            this.vx *= 0.98;
+            this.vy *= 0.98;
+            this.vy += 0.08; // Gravity
+            this.x += this.vx;
+            this.y += this.vy;
+            this.alpha -= this.decay;
+        }
+
+        draw() {
+            ctx.save();
+            ctx.globalAlpha = this.alpha;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = this.color;
+            ctx.fill();
+            ctx.restore();
+        }
+    }
+
+    function createFirework(x, y) {
+        const colors = ["#ff4081", "#ff8fb1", "#ffd700", "#00e676", "#00b0ff", "#d500f9"];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        for (let i = 0; i < 45; i++) {
+            particles.push(new Particle(x, y, color));
+        }
+    }
+
+    function animateFireworks() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles = particles.filter(p => p.alpha > 0);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animateFireworks);
+    }
+    animateFireworks();
+
+    function triggerExplosionFireworks() {
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 3;
+        createFirework(x, y);
+        createFirework(x - 150, y + 50);
+        createFirework(x + 150, y + 50);
+    }
+
+    let fireworkInterval = null;
+    function startFireworksShow() {
+        if (!fireworkInterval) {
+            triggerExplosionFireworks();
+            fireworkInterval = setInterval(() => {
+                if (currentPage === 6) {
+                    const x = Math.random() * (window.innerWidth - 200) + 100;
+                    const y = Math.random() * (window.innerHeight / 2) + 100;
+                    createFirework(x, y);
+                }
+            }, 1200);
         }
     }
 
