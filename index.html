@@ -153,6 +153,25 @@
         margin: auto;
     }
 
+    .start-music-btn {
+        margin-top: 20px;
+        padding: 12px 28px;
+        border-radius: 30px;
+        border: 2px solid #e85d9e;
+        background: #ffffff;
+        color: #e85d9e;
+        font-weight: bold;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(232, 93, 158, 0.2);
+    }
+
+    .start-music-btn:hover {
+        background: #e85d9e;
+        color: #ffffff;
+    }
+
     /* PAGE 2: MESSAGE */
     .message-card {
         padding: 40px;
@@ -498,7 +517,7 @@
         position: relative;
         z-index: 101;
         text-align: center;
-        background: linear-gradient(rgba(35, 12, 30, 0.75), rgba(35, 12, 30, 0.75)), url('photosbg-final.jpeg') center/cover no-repeat;
+        background: linear-gradient(rgba(35, 12, 30, 0.75), rgba(35, 12, 30, 0.75)), url('photos/bg-final.jpg') center/cover no-repeat;
         color: white;
         padding: 50px 30px;
         border-radius: 25px;
@@ -612,7 +631,7 @@
 <body onclick="playMusicOnFirstInteraction()">
 
 <!-- BACKGROUND AUDIO PLAYER -->
-<audio id="bgMusic" loop></audio>
+<audio id="bgMusic" loop preload="auto"></audio>
 
 <!-- FIREWORKS OVERLAY CANVAS -->
 <canvas id="fireworksCanvas"></canvas>
@@ -636,6 +655,7 @@
                 Today isn't just another day... It's the day someone truly special came into this world.
                 Follow through these steps to unlock your birthday surprise! 🌸
             </p>
+            <button class="start-music-btn" id="musicToggleBtn" onclick="forcePlayMusic(event)">🎵 Tap to Start Music</button>
         </div>
     </div>
 
@@ -661,31 +681,31 @@
         <p class="section-subtitle">Moments and memories frame by frame.</p>
         <div class="slideshow-container">
             <div class="slide">
-                <img src="photo1.jpeg" alt="Memory 1">
+                <img src="photos/photo1.jpg" alt="Memory 1">
                 <div class="caption">Cherished Moments 🌟</div>
             </div>
             <div class="slide">
-                <img src="photo2.jpeg" alt="Memory 2">
+                <img src="photos/photo2.jpg" alt="Memory 2">
                 <div class="caption">Laughter & Fun 😄</div>
             </div>
             <div class="slide">
-                <img src="photo3.jpeg" alt="Memory 3">
+                <img src="photos/photo3.jpg" alt="Memory 3">
                 <div class="caption">Unforgettable Days 💖</div>
             </div>
             <div class="slide">
-                <img src="photo4.jpeg" alt="Memory 4">
+                <img src="photos/photo4.jpg" alt="Memory 4">
                 <div class="caption">Sweet Smiles 😊</div>
             </div>
             <div class="slide">
-                <img src="photo5.jpeg" alt="Memory 5">
+                <img src="photos/photo5.jpg" alt="Memory 5">
                 <div class="caption">Best Time Together 🌸</div>
             </div>
             <div class="slide">
-                <img src="photo6.jpeg" alt="Memory 6">
+                <img src="photos/photo6.jpg" alt="Memory 6">
                 <div class="caption">Golden Memories ✨</div>
             </div>
             <div class="slide">
-                <img src="photo7.jpeg" alt="Memory 7">
+                <img src="photos/photo7.jpg" alt="Memory 7">
                 <div class="caption">Forever Best Friends 💕</div>
             </div>
 
@@ -793,12 +813,12 @@
     const audioPlayer = document.getElementById("bgMusic");
 
     const pageTracks = {
-        1: "musictrack1.mp3",
-        2: "musictrack2.mp3",
-        3: "musictrack3.mp3",
-        4: "musictrack4.mp3",
-        5: "musictrack5.mp3",
-        6: "musictrack6.mp3"
+        1: "music/track1.mp3",
+        2: "music/track2.mp3",
+        3: "music/track3.mp3",
+        4: "music/track4.mp3",
+        5: "music/track5.mp3",
+        6: "music/track6.mp3"
     };
 
     const uniqueButtonTexts = [
@@ -812,19 +832,28 @@
     /* ---------- DYNAMIC PAGE MUSIC ---------- */
     function playTrackForCurrentPage() {
         const trackUrl = pageTracks[currentPage];
-        if (audioPlayer.src !== trackUrl) {
+        if (audioPlayer.src !== new URL(trackUrl, window.location.href).href) {
             audioPlayer.src = trackUrl;
             audioPlayer.load();
         }
         audioPlayer.play().then(() => {
             isMusicPlaying = true;
-        }).catch(() => {});
+            const btn = document.getElementById("musicToggleBtn");
+            if (btn) btn.innerText = "🎵 Music Playing";
+        }).catch((err) => {
+            console.log("Autoplay blocked by browser. User interaction needed.");
+        });
     }
 
     function playMusicOnFirstInteraction() {
         if (!isMusicPlaying) {
             playTrackForCurrentPage();
         }
+    }
+
+    function forcePlayMusic(e) {
+        if (e) e.stopPropagation();
+        playTrackForCurrentPage();
     }
 
     /* ---------- PAGE NAVIGATION ---------- */
@@ -885,7 +914,7 @@
         setInterval(() => changeSlide(1), 4000);
     });
 
-    /* ---------- CANDLE ANIMATION & LIVE AGE CALCULATOR ---------- */
+    /* ---------- CANDLE ANIMATION & ACCURATE AGE CALCULATOR ---------- */
     function blowOutCandle() {
         const flame = document.getElementById("flame");
         const hint = document.getElementById("tapHint");
@@ -905,24 +934,27 @@
     }
 
     function updateLiveAge() {
-        const start = new Date("2003-03-16T00:00:00");
+        const birthDate = new Date("2003-03-16T00:00:00");
         const now = new Date();
 
-        const diffMs = now - start;
+        const diffMs = now.getTime() - birthDate.getTime();
         const diffSeconds = Math.floor(diffMs / 1000);
         const diffMinutes = Math.floor(diffSeconds / 60);
         const diffHours = Math.floor(diffMinutes / 60);
         const diffDays = Math.floor(diffHours / 24);
         const diffWeeks = Math.floor(diffDays / 7);
 
-        let years = now.getFullYear() - start.getFullYear();
-        let months = (years * 12) + (now.getMonth() - start.getMonth());
-        if (now.getDate() < start.getDate()) {
-            months--;
+        // Precise year calculation accounting for leap years
+        const exactYears = (diffDays / 365.2425).toFixed(1);
+
+        // Total months elapsed
+        let totalMonths = (now.getFullYear() - birthDate.getFullYear()) * 12 + (now.getMonth() - birthDate.getMonth());
+        if (now.getDate() < birthDate.getDate()) {
+            totalMonths--;
         }
 
-        document.getElementById("valYears").innerText = Math.max(0, years).toLocaleString();
-        document.getElementById("valMonths").innerText = Math.max(0, months).toLocaleString();
+        document.getElementById("valYears").innerText = exactYears;
+        document.getElementById("valMonths").innerText = Math.max(0, totalMonths).toLocaleString();
         document.getElementById("valWeeks").innerText = Math.max(0, diffWeeks).toLocaleString();
         document.getElementById("valDays").innerText = Math.max(0, diffDays).toLocaleString();
         document.getElementById("valHours").innerText = Math.max(0, diffHours).toLocaleString();
